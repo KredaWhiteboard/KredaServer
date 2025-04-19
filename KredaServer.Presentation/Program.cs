@@ -2,6 +2,8 @@ using KredaServer.Presentation.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.AddHostConfig();
+
 builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration)
@@ -10,12 +12,8 @@ builder.Services
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+app.MapOpenApi();
 
-// app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
