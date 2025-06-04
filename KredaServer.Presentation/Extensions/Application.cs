@@ -7,6 +7,8 @@ public static class ServiceCollectionExtensionsApplication
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddScoped<GetUsers>();
+        services.AddScoped<TestHandler>();
+
         return services;
     }
 }

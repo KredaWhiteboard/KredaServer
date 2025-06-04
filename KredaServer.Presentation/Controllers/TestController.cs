@@ -1,3 +1,5 @@
+using KredaServer.Application;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace KredaServer.Presentation.Controllers;
@@ -5,12 +7,12 @@ namespace KredaServer.Presentation.Controllers;
 //atrybuty, dekoratory
 [ApiController]
 [Route("[controller]")]
-public class TestController : ControllerBase
+public class TestController(TestHandler testHandler) : ControllerBase
 {
     [HttpGet]
-    public string Get()
+    public async Task<Guid[]> Get(CancellationToken cancellationToken)
     {
-        return "Endpoint is working";
+        return await testHandler.Execute(cancellationToken);
     }
 
     [HttpGet("kubale")]
