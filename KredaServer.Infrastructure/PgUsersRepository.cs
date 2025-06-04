@@ -19,7 +19,8 @@ public class PgUsersRepository(NpgsqlConnection connection) : IUsersRepository
     public async Task InsertUser(User user, CancellationToken cancellationToken)
     {
         await connection.ExecuteAsync(new CommandDefinition(
-            "INSERT INTO users(id,username,created_at) VALUES(@Id,@Username,@CreatedAt)",
+            @"INSERT INTO users(id, username, created_at) 
+            VALUES(@Id, @Username, @CreatedAt)",
             user,
             cancellationToken:cancellationToken
         ));
