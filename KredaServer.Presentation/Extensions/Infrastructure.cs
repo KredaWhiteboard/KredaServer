@@ -14,7 +14,7 @@ public static class ServiceCollectionExtensionsInfrastructure
         services.AddNpgsqlDataSource(configuration["DATABASE_CONNECTION_STRING"]
             ?? throw new NoNullAllowedException("DATABASE_CONNECTION_STRING environment variable is invalid."));
 
-        services.AddScoped<ITestRepository, PgTestRepository>();
+        services.AddScoped<IUsersRepository, PgUsersRepository>();
 
         return services;
     }
