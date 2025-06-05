@@ -1,11 +1,10 @@
 ﻿using Dapper;
 
-using KredaServer.Domain;
 using KredaServer.Domain.Users;
 
 using Npgsql;
 
-namespace KredaServer.Infrastructure;
+namespace KredaServer.Infrastructure.Users;
 
 public class PgUsersRepository(NpgsqlConnection connection) : IUsersRepository
 {
@@ -16,11 +15,25 @@ public class PgUsersRepository(NpgsqlConnection connection) : IUsersRepository
         return [.. result];
     }
 
+    public async Task<User[]> GetUsersByWhiteboardId(Guid id, CancellationToken cancellationToken)
+    {
+        var result = await connection.QueryAsync<User>(new CommandDefinition(
+            "SELECT * FROM users WHERE whiteboard_id = @Id;",
+            new
+            {
+                Id = id
+            },
+            cancellationToken: cancellationToken
+        ));
+
+        return [.. result];
+    }
+
     public async Task InsertUser(User user, CancellationToken cancellationToken)
     {
         await connection.ExecuteAsync(new CommandDefinition(
-            @"INSERT INTO users(id, username, created_at) 
-            VALUES(@Id, @Username, @CreatedAt)",
+            @"INSERT INTO users(id, username, whiteboard_id, created_at) 
+            VALUES(@Id, @Username, @WhiteboardId, @CreatedAt)",
             user,
             cancellationToken: cancellationToken
         ));

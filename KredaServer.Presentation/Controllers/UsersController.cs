@@ -1,4 +1,4 @@
-using KredaServer.Application;
+using KredaServer.Application.Users;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,8 +16,8 @@ public class UsersController(GetUsernames getUsernames, InsertUser insertUser) :
     }
 
     [HttpPost("/users/register")]
-    public async Task<Guid> InsertUser([FromBody]string username, CancellationToken cancellationToken)
+    public async Task<Guid> InsertUser([FromBody] string username, CancellationToken cancellationToken)
     {
-        return await insertUser.Execute(username ,cancellationToken);
+        return await insertUser.Execute(username, cancellationToken);
     }
 }
