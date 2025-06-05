@@ -1,6 +1,6 @@
-using KredaServer.Domain;
+using KredaServer.Domain.Users;
 
-namespace KredaServer.Application;
+namespace KredaServer.Application.Users;
 
 public class GetUsernames(IUsersRepository usersRepository)
 {

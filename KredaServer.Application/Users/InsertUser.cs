@@ -1,7 +1,6 @@
-using KredaServer.Domain;
 using KredaServer.Domain.Users;
 
-namespace KredaServer.Application;
+namespace KredaServer.Application.Users;
 
 public class InsertUser(IUsersRepository usersRepository)
 {
@@ -11,7 +10,7 @@ public class InsertUser(IUsersRepository usersRepository)
         {
             throw new Exception("username too long or empty");
         }
-        var user = new User(Guid.NewGuid(), username, DateTime.UtcNow);
+        var user = new User(Guid.NewGuid(), username, Guid.NewGuid(), DateTime.UtcNow);
         await usersRepository.InsertUser(user, cancellationToken);
         return user.Id;
     }
