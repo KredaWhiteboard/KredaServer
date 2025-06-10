@@ -1,8 +1,7 @@
 ﻿using Dapper;
+using Npgsql;
 
 using KredaServer.Domain.Users;
-
-using Npgsql;
 
 namespace KredaServer.Infrastructure.Users;
 

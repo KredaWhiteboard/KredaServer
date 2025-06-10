@@ -1,8 +1,7 @@
 using Dapper;
+using Npgsql;
 
 using KredaServer.Domain.Whiteboards;
-
-using Npgsql;
 
 namespace KredaServer.Infrastructure.Whiteboards;
 

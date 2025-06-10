@@ -1,4 +1,3 @@
-using KredaServer.Domain.Users;
 using KredaServer.Domain.Whiteboards;
 
 namespace KredaServer.Application.Whiteboards;

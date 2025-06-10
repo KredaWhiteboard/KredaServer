@@ -1,7 +1,11 @@
 using System.Data;
 
+using KredaServer.Domain.Dots;
+using KredaServer.Domain.Shapes;
 using KredaServer.Domain.Users;
 using KredaServer.Domain.Whiteboards;
+using KredaServer.Infrastructure.Dots;
+using KredaServer.Infrastructure.Shapes;
 using KredaServer.Infrastructure.Users;
 using KredaServer.Infrastructure.Whiteboards;
 
@@ -17,7 +21,8 @@ public static class ServiceCollectionExtensionsInfrastructure
 
         services.AddScoped<IUsersRepository, PgUsersRepository>();
         services.AddScoped<IWhiteboardsRepository, PgWhiteboardsRepository>();
-
+        services.AddScoped<IDotsRepository, PgDotsRepository>();
+        services.AddScoped<IShapesRepository, PgShapesRepository>();
         return services;
     }
 }
