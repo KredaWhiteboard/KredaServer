@@ -16,9 +16,9 @@ public class PgShapesRepository(NpgsqlConnection connection) : IShapesRepository
         ));
     }
 
-    public async Task<Shape> GetShapeById(Guid id, CancellationToken cancellationToken)
+    public async Task<Shape?> GetShapeById(Guid id, CancellationToken cancellationToken)
     {
-        return await connection.QuerySingleAsync<Shape>(new CommandDefinition(
+        return await connection.QuerySingleOrDefaultAsync<Shape?>(new CommandDefinition(
             "SELECT * FROM shapes WHERE id = @Id;",
             new { Id = id },
             cancellationToken: cancellationToken

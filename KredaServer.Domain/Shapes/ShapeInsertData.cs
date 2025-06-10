@@ -1,7 +1,6 @@
 namespace KredaServer.Domain.Shapes;
 
-public record Shape(
-    Guid Id,    //ShapeId
+public record ShapeInsertData(
     Guid WhiteboardId,
     byte BrushSize,
     byte R,
