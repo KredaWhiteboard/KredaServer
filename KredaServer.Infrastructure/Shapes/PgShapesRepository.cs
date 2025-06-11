@@ -28,8 +28,8 @@ public class PgShapesRepository(NpgsqlConnection connection) : IShapesRepository
     public async Task InsertShape(Shape shape, CancellationToken cancellationToken)
     {
         await connection.ExecuteAsync(new CommandDefinition(
-            @"INSERT INTO shapes(id,whiteboard_id,brush_size,r,g,b,a)
-            VALUES(@Id,@WhiteboardId,@BrushSize,@R,@G,@B,@A);",
+            @"INSERT INTO shapes(id,whiteboard_id,brush_size,r,g,b,a,shape_flag)
+            VALUES(@Id,@WhiteboardId,@BrushSize,@R,@G,@B,@A,@ShapeFlag);",
             shape,
             cancellationToken: cancellationToken
         ));

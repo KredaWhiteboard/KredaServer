@@ -7,5 +7,6 @@ public record Shape(
     byte R,
     byte G,
     byte B,
-    byte A
+    byte A,
+    bool ShapeFlag
 );

@@ -14,7 +14,8 @@ public class InsertShape(IShapesRepository shapesRepository)
             insertData.R,
             insertData.G,
             insertData.B,
-            insertData.A
+            insertData.A,
+            insertData.ShapeFlag
         );
         await shapesRepository.InsertShape(shape, cancellationToken);
         return shape.Id;
