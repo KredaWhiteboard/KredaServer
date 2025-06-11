@@ -1,4 +1,5 @@
 using KredaServer.Presentation.Extensions;
+using KredaServer.Presentation.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,9 +13,14 @@ builder.Services
 
 var app = builder.Build();
 
+app.UseWebSockets();
+
+app.UseCors("AllowClient");
+
 app.MapOpenApi();
 
-app.UseAuthorization();
 app.MapControllers();
+
+app.MapHub<WhiteboardSessionHub>("/whiteboard/{whiteboardId}");
 
 app.Run();
