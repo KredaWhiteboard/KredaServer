@@ -10,6 +10,7 @@ public static class ServiceCollectionExtensionsApplication
         services.AddScoped<GetUsernames>();
         services.AddScoped<InsertUser>();
 
+        services.AddScoped<GetWhiteboardById>();
         services.AddScoped<InsertWhiteboard>();
 
         return services;

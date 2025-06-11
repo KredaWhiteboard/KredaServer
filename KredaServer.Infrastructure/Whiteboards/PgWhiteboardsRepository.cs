@@ -7,13 +7,15 @@ namespace KredaServer.Infrastructure.Whiteboards;
 
 public class PgWhiteboardsRepository(NpgsqlConnection connection) : IWhiteboardsRepository
 {
-    public async Task<Whiteboard> GetWhiteboardById(Guid id, CancellationToken cancellationToken)
+    public async Task<Whiteboard?> GetWhiteboardById(Guid id, CancellationToken cancellationToken)
     {
-        return await connection.QuerySingleAsync<Whiteboard>(new CommandDefinition(
+        var result = await connection.QueryFirstOrDefaultAsync(new CommandDefinition(
             "SELECT * FROM whiteboards WHERE id = @Id;",
             new { Id = id },
             cancellationToken: cancellationToken
         ));
+
+        return result is not null ? MapToWhiteboard(result) : null;
     }
 
     public async Task InsertWhiteboard(Whiteboard whiteboard, CancellationToken cancellationToken)
@@ -23,5 +25,13 @@ public class PgWhiteboardsRepository(NpgsqlConnection connection) : IWhiteboards
             whiteboard,
             cancellationToken: cancellationToken
         ));
+    }
+
+    private static Whiteboard MapToWhiteboard(dynamic data)
+    {
+        return new Whiteboard(
+            Id: data.id,
+            CreatedAt: data.created_at
+        );
     }
 }
