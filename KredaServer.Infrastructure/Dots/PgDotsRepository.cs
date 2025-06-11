@@ -10,7 +10,7 @@ public class PgDotsRepository(NpgsqlConnection connection) : IDotsRepository
     public async Task<Dot[]> GetDotsByShapeId(Guid id, CancellationToken cancellationToken)
     {
         var results = await connection.QueryAsync<Dot>(new CommandDefinition(
-            "SELECT x, y, order FROM dots WHERE shape_id = @Id ORDER BY order;",
+            "SELECT x, y, order FROM dots WHERE shape_id = @Id ORDER BY order ASC;",
             new { Id = id },
             cancellationToken: cancellationToken
         ));
@@ -20,7 +20,7 @@ public class PgDotsRepository(NpgsqlConnection connection) : IDotsRepository
     public async Task InsertDots(Dot[] dots, CancellationToken cancellationToken)
     {
         var dp = new DynamicParameters();
-        foreach (Dot dot in dots)
+        foreach (var dot in dots)
         {
             dp.Add("@ShapeId", dot.ShapeId);
             dp.Add("@X", dot.X);

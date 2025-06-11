@@ -8,5 +8,5 @@ public record Shape(
     byte G,
     byte B,
     byte A,
-    bool ShapeFlag
+    bool IsShape
 );

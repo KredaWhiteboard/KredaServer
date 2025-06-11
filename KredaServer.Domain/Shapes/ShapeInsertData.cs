@@ -7,5 +7,5 @@ public record ShapeInsertData(
     byte G,
     byte B,
     byte A,
-    bool ShapeFlag
+    bool IsShape
 );
