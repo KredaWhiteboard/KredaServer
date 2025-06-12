@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.SignalR;
 
 using KredaServer.Presentation.Utils;
 using KredaServer.Application.Whiteboards;
+using KredaServer.Presentation.Dtos;
 
 namespace KredaServer.Presentation.Hubs;
 
@@ -30,8 +31,9 @@ public class WhiteboardSessionHub(ConcurrentDictionary<string, ConnectionContext
             ?? throw new Exception($"Whiteboard with id {whiteboardIdParameter} not found.");
 
         await Groups.AddToGroupAsync(Context.ConnectionId, whiteboardIdParameter);
-        await Clients.Group(whiteboardIdParameter).SendAsync("ReceiveMessage", "System", $"Connected {username}.");
         connections.TryAdd(Context.ConnectionId, new ConnectionContext(whiteboardIdParameter, username!));
+
+        await Clients.Group(whiteboardIdParameter).SendAsync("ReceiveUserConnected", new { Username = username });
 
         await base.OnConnectedAsync();
     }
@@ -41,18 +43,28 @@ public class WhiteboardSessionHub(ConcurrentDictionary<string, ConnectionContext
         var connection = connections[Context.ConnectionId]
             ?? throw new Exception($"Connection context with id {Context.ConnectionId} not found"); // TODO: error to handle with logger
 
-        await Clients.Group(connection.WhiteboardId).SendAsync("ReceiveMessage", "System", $"Disconnected {connection.UserName}."); // TODO: disconnect message
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, connection.WhiteboardId);
         connections.Remove(Context.ConnectionId, out _);
+
+        await Clients.Group(connection.WhiteboardId).SendAsync("ReceiveUserDisconnected", new { Username = connection.UserName });
 
         await base.OnDisconnectedAsync(ex);
     }
 
-    public async Task SendMessage(string user, string message)
+    public async Task SendUserAction(UserActionDto dto)
     {
         var connection = connections[Context.ConnectionId]
             ?? throw new Exception($"Connection context with id {Context.ConnectionId} not found"); // TODO: error to handle with logger
 
-        await Clients.Group(connection.WhiteboardId).SendAsync("ReceiveMessage", user, message);
+        await Clients.Group(connection.WhiteboardId).SendAsync(
+            "ReceiveUserAction",
+            new
+            {
+                Username = connection.UserName,
+                dto.X,
+                dto.Y,
+                dto.IsDrawing
+            }
+        );
     }
 }
