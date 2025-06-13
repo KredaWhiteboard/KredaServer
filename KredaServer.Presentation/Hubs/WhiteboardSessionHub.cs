@@ -27,8 +27,7 @@ public class WhiteboardSessionHub(ConcurrentDictionary<string, ConnectionContext
         }
 
         var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
-        _ = await getWhiteboardById.Execute(whiteboardId, cts.Token)
-            ?? throw new Exception($"Whiteboard with id {whiteboardIdParameter} not found.");
+        await getWhiteboardById.Execute(whiteboardId, cts.Token);
 
         await Groups.AddToGroupAsync(Context.ConnectionId, whiteboardIdParameter);
         connections.TryAdd(Context.ConnectionId, new ConnectionContext(whiteboardIdParameter, username!));
@@ -63,7 +62,12 @@ public class WhiteboardSessionHub(ConcurrentDictionary<string, ConnectionContext
                 Username = connection.UserName,
                 dto.X,
                 dto.Y,
-                dto.IsDrawing
+                Mode = dto.Tool.ToString(),
+                dto.BrushSize,
+                dto.R,
+                dto.G,
+                dto.B,
+                dto.A
             }
         );
     }
