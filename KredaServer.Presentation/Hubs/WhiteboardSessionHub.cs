@@ -62,7 +62,7 @@ public class WhiteboardSessionHub(ConcurrentDictionary<string, ConnectionContext
                 Username = connection.UserName,
                 dto.X,
                 dto.Y,
-                Mode = dto.Tool.ToString(),
+                Tool = dto.Tool.ToString(),
                 dto.BrushSize,
                 dto.R,
                 dto.G,
