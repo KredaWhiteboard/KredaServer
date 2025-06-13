@@ -9,7 +9,7 @@ public enum ToolType
 public record UserActionDto(
     int X,
     int Y,
-    ToolType? Tool,
+    string? Tool,
     int? Order,
     byte? BrushSize,
     byte? R,
