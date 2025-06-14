@@ -21,6 +21,6 @@ app.MapOpenApi();
 
 app.MapControllers();
 
-app.MapHub<WhiteboardSessionHub>("/whiteboard/{whiteboardId}");
+app.MapHub<WhiteboardSessionHub>("/whiteboards/{whiteboardId}");
 
 app.Run();
